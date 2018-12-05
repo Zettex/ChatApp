@@ -259,3 +259,20 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/ChatApp/Properties/PublishProfiles/CustomProfile.pubxml
+/ChatApp/Properties/PublishProfiles
+/ChatApp/Migrations/Configuration.cs
+/ChatApp/Migrations/201807271033305_UserRights.resx
+/ChatApp/Migrations/201807271033305_UserRights.Designer.cs
+/ChatApp/Migrations/201807271033305_UserRights.cs
+/ChatApp/Migrations/201807170943457_AddUserImgUrl.resx
+/ChatApp/Migrations/201807170943457_AddUserImgUrl.Designer.cs
+/ChatApp/Migrations/201807170943457_AddUserImgUrl.cs
+/ChatApp/Migrations/201807141402271_RemoveRoomUrl.resx
+/ChatApp/Migrations/201807141402271_RemoveRoomUrl.Designer.cs
+/ChatApp/Migrations/201807141402271_RemoveRoomUrl.cs
+/ChatApp/Migrations/201807110859135_UserRole.resx
+/ChatApp/Migrations/201807110859135_UserRole.Designer.cs
+/ChatApp/Migrations/201807110859135_UserRole.cs
+/ChatApp/Migrations
+/ChatApp

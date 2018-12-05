@@ -9,8 +9,8 @@
 ### [DEMO](http://www.chatapp2.somee.com/)
 
 #### For to login as an Administrator:
-- Username: Admin 
-- Pass:     123321
+- Login: Admin 
+- Pass: 123321
 #### For to login as a User (or you can register yourself):
-- Username: User 
-- Pass:     123
+- Login: User 
+- Pass: 123

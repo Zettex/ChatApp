@@ -1,0 +1,104 @@
+﻿@model ChatApp.Models.UserModelView
+
+@{
+    ViewBag.Title = "User Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Action("Sidebar", "Chat")
+
+<div class="layout"></div>
+
+<div class="wrap">
+    <div>
+        <img id="avatar" src="@(Model.User.ImageUrl ?? "/Content/ChatContent/images/img.png")" 
+             onerror="this.src='/Content/ChatContent/images/img.png'">
+    </div>
+
+    @using (Html.BeginForm("User", "Account", FormMethod.Post, new { id = "user-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        @Html.HiddenFor(m => Model.User.Id);
+
+        <p>
+            @Html.LabelFor(m => m.User.Name)
+            @Html.TextBoxFor(m => m.User.Name)
+            @Html.ValidationMessageFor(m => m.User.Name)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.User.ImageUrl)
+            @Html.TextBoxFor(m => m.User.ImageUrl)
+            @Html.ValidationMessageFor(m => m.User.ImageUrl)
+        </p>
+        
+        @* The admin can not display the page of another admin and SuperAdmin. Any user can display his own page *@
+        if ((Model.CurrentUser.Role == "Admin" && Model.User.Role != "Admin" && Model.User.Role != "SuperAdmin") 
+        || Model.CurrentUser.Role == "SuperAdmin" 
+        || Model.User.Id == Model.CurrentUser.Id)
+        {
+            @* Display password to only SuperAdmin or user his own page *@
+            if (Model.CurrentUser.Role == "SuperAdmin" || Model.User.Id == Model.CurrentUser.Id)
+            {
+                <p>
+                    @Html.LabelFor(m => m.User.Password)
+                    @Html.TextBoxFor(m => m.User.Password)
+                    @Html.ValidationMessageFor(m => m.User.Password)
+                </p>
+            }
+
+            @* Only admins or SuperAdmin have access to the rights to change *@
+            if (Model.CurrentUser.Role == "Admin" || Model.CurrentUser.Role == "SuperAdmin")
+            {
+                @* SuperAdmin and admins not need to change own rights *@
+                if (Model.User.Id != Model.CurrentUser.Id)
+                {
+                    <p>
+                        @Html.LabelFor(m => m.User.Role)
+                        @Html.DropDownListFor(m => m.User.Role,
+                                                new SelectList(new string[] { "User", "Admin" }))       
+                    </p>
+                    
+
+                    <p>
+                        @Html.LabelFor(m => m.User.CanWriteMessages)
+                        @Html.DropDownListFor(m => m.User.CanWriteMessages, new SelectList(new[]
+                                                                    {
+                                                                        new { Value = true, Text = "Yes" },
+                                                                        new { Value = false, Text = "No" },
+                                                                    },
+                                                                    "Value",
+                                                                    "Text",
+                                                                    Model.User.CanWriteMessages))
+                    </p>
+
+                    <p>
+                        @Html.LabelFor(m => m.User.CanCreateRoom)
+                        @Html.DropDownListFor(m => m.User.CanCreateRoom, new SelectList(new[]
+                                                                    {
+                                                                        new { Value = true, Text = "Yes" },
+                                                                        new { Value = false, Text = "No" },
+                                                                    },
+                                                                    "Value",
+                                                                    "Text",
+                                                                    Model.User.CanCreateRoom))
+                    </p>
+                }
+            }
+
+            <p>
+                <input class="submit" type="submit" value="CHANGE">
+            </p>
+        }
+        
+    }
+
+    @if (Model.CurrentUser.Role == "Admin" || Model.CurrentUser.Role == "SuperAdmin")
+    {
+        <div class="links">
+            @Html.ActionLink("Manage Rooms", "ManageRooms", "Account") <br />
+            @Html.ActionLink("Manage Users", "ManageUsers", "Account")
+        </div>
+    }
+</div>

@@ -1,0 +1,10 @@
+﻿@model ChatApp.Models.MessageTypingModelView
+
+<li class="msg new" id="@Model.UserId">
+    <a href="@Url.Action("User", "Account", new { Model.User.Id })">
+
+        <img src="@(Model.User.ImageUrl ?? "/Content/ChatContent/images/img.png")">
+        <span class="user-name">@Model.User.Name</span>
+    </a>
+    ...
+</li>

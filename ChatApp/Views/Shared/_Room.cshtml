@@ -1,0 +1,5 @@
+﻿@model ChatApp.Models.Room
+
+<li class="room new">
+    <a href="@Url.Action("Room", "Chat", new { Model.Id })">@Model.Name</a>
+</li>

@@ -1,0 +1,40 @@
+﻿@model ChatApp.Models.AccountModels.LoginModel
+
+@{
+    ViewBag.Title = "Authorization";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrap">
+    <h2>Authorization</h2>
+    <div>
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "user-form" }))
+        {
+            
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <p>
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </p>
+
+            <p>
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+            </p>
+            
+            <p>
+                <input class="submit" type="submit" value="Login">
+            </p>
+        }
+
+        <div class="links" style="font-size: 20px; color: #87708a;">
+            Do not have an account? 
+            <a style="font-size: 20px; display: inline;" href="@Url.Action("Register", "Account")">You can register here</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model ChatApp.Models.RoomsModelView
+
+<div id="sidebar">
+    <div class="toggle-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul id="room-list">
+        <li><a href="@Url.Action("User", "Account", new { Model.User.Id })">User profile</a></li>
+        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+        <h2>Rooms:</h2>
+        @foreach (var room in Model.Rooms)
+        {
+            <li class="room">
+                <a href="@Url.Action("Room", "Chat", new { room.Id })">@room.Name</a>
+            </li>
+        }
+    </ul>
+
+    @if (Model.User.CanCreateRoom)
+    {
+        using (Ajax.BeginForm("AddRoom", "Chat", null, null, new { id = "room-form", autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <input id="room-input" class="room-name" type="text" name="Name" placeholder="Room name">
+
+            <input id="add-room" class="submit" type="submit" value="Add room">
+        }
+    }
+</div>

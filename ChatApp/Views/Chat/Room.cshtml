@@ -1,0 +1,88 @@
+﻿@model ChatApp.Models.ChatModelView
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string roomName = null;
+    string isReadonly = "readonly";
+
+    if (Model != null)
+    {
+        roomName = Model.Room.Name;
+        if (Model.User.CanWriteMessages)
+        {
+            isReadonly = null;
+        }
+    }
+}
+
+@Html.Action("Sidebar", "Chat")
+
+<div class="layout"></div>
+
+<div id="main" class="container">
+    <h2 class="room-name">@roomName</h2>
+    <div id="messages">
+
+        <ul>
+            @if (Model != null)
+            {
+                if (Model.Messages.Count > 0)
+                {
+                    var currentDate = DateTime.MinValue;
+                    foreach (var message in Model.Messages)
+                    {
+                        if (currentDate.Day != message.Date.Day)
+                        {
+                            <span class="date-info">@message.Date.ToConfigLocalDate()</span>
+                            currentDate = message.Date;
+                        }
+
+                        string my = null;
+                        if (Model.User == message.User)
+                        {
+                            my = "my";
+                        }
+
+                        <li class="msg @my">
+                            @if (my == null)
+                            {
+                                <a href="@Url.Action("User", "Account", new { message.User.Id })">
+
+                                    <img src="@(message.User.ImageUrl ?? "/Content/ChatContent/images/img.png")" 
+                                         onerror="this.src='/Content/ChatContent/images/img.png'">
+                                    <span class="user-name">@message.User.Name</span>
+                                </a>
+                            }
+                            @Html.Raw(System.Text.RegularExpressions.Regex.Replace(message.Body, @"\r\n?|\n", "<br />"))
+                            <span class="date-time">@message.Date.ToConfigLocalTime()</span>
+                            <span id="msg_@message.Id" class="del-msg">@(my == null ? "" : "✖")</span>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <div class="room-info">NO MESSAGES</div>
+                }
+            }
+            else
+            {
+                <div class="room-info">PLEASE SELECT A ROOM</div>
+            }
+
+        </ul>
+
+        @using (Ajax.BeginForm("AddMessage", "Chat", null, null, new { id = "msg-form" }))
+        {
+            if (Model != null)
+            {
+                @Html.Hidden("RoomId", Model.Room.Id)
+                @Html.Hidden("UserId", Model.User.Id)
+            }
+            <textarea id="msg-input" class="msg-input" name="Body" placeholder="Message" @isReadonly 
+                      title="@(isReadonly == null ? "" : "You cannot send messages")"></textarea>
+            <div id="send">→</div>
+        }
+
+    </div>
+</div>

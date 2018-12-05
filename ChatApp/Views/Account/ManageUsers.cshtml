@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ChatApp.Models.User>
+
+@{
+    ViewBag.Title = "Manage Rooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Action("Sidebar", "Chat")
+
+<div class="layout"></div>
+
+<div class="wrap">
+    <h2>Users</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "User", "Account", new { item.Id }, new { title = "Go to the " + item.Name + " page?" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @if (item.Role != "SuperAdmin")
+                    {
+                        <a class="del" href="@Url.Action("DeleteUser", "Account", new { item.Id })">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div class="links">
+        @Html.ActionLink("Manage Rooms", "ManageRooms", "Account")
+    </div>
+</div>

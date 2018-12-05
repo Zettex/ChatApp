@@ -1,0 +1,719 @@
+@font-face {
+    font-family: Roboto;
+    src: url("../fonts/Roboto-Light.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body{
+	background: #1b191d;
+    font-family: Roboto;
+    letter-spacing: 1px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+}
+
+.layout {
+    display: none;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.8) 60%, rgba(0,0,0,0.5));
+    z-index: 998;
+}
+
+.container{
+	max-width: 1080px;
+	height: calc(100vh - 40px);
+	margin: 20px auto;
+	background: #27242b;
+	border-radius: 20px;
+}
+
+#sidebar{
+	top: 0;
+	position: absolute;
+	width: 200px;
+	height: 100%;
+	background: #3d3942;
+	left: -200px;
+	transition: all 500ms linear;
+	z-index: 999;
+}
+
+#sidebar.active{
+	left: 0;
+}
+
+#sidebar ul li, h2 {
+    position: relative;
+	color: #dddcdd;
+	list-style: none;;
+	padding: 15px 10px;
+	border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+	font-size: 20px;
+	word-wrap: break-word;
+    font-size: 22px;
+}
+
+
+
+#sidebar ul li.room{ font-size: 18px; }
+
+#sidebar ul li.room.new{ display: none; }
+
+#sidebar h2{
+	font-size: 26px;
+	text-align: center;
+	border-top: 10px solid rgba(100, 100, 100, 0.3);
+    margin: 0;
+    text-transform: uppercase;
+    color: #1565C0;
+    text-shadow: 0 0 16px black;
+    cursor: default;
+    letter-spacing: 8px;
+}
+
+#sidebar ul li a{
+	display: inline-block;
+	color: #fbf8fd;
+	text-decoration: none;
+	width: 100%;
+	text-align: center;
+}
+
+#sidebar ul#room-list {
+    height: calc(100% - 110px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#sidebar ul li:not(.room) a{
+	text-transform: uppercase;
+	text-shadow: 0 0 5px #b178e4;
+}
+
+#sidebar ul li:hover{
+	background: #27242b;
+}
+
+/* START **** toggle btn sidebar *****/
+
+#sidebar .toggle-btn{
+    height: 30px;
+    width: 40px;
+    position: absolute;
+    left: 230px;
+    top: 25px;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+    cursor: pointer;
+}
+
+#sidebar .toggle-btn span{
+    display: block;
+    position: absolute;
+    height: 5px;
+    width: 40px;
+    background: #b178e4;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+#sidebar .toggle-btn span:nth-child(1) {
+    top: 0px;
+    transform-origin: left center;
+}
+
+#sidebar .toggle-btn span:nth-child(2) {
+    top: 12px;
+    transform-origin: left center;
+}
+
+#sidebar .toggle-btn span:nth-child(3) {
+    top: 24px;
+    transform-origin: left center;
+}
+
+#sidebar .toggle-btn.active span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 0;
+    left: 8px;
+}
+
+#sidebar .toggle-btn.active span:nth-child(2) {
+    width: 0%;
+    opacity: 0;
+}
+
+#sidebar .toggle-btn.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 28px;
+    left: 8px;
+}
+
+#sidebar .toggle-btn:hover span{
+    box-shadow: 0 0 15px rgba(255,255,255, 0.5);
+}
+
+/* END **** toggle btn sidebar *****/
+
+#sidebar form#room-form{
+    background: #1b191d;
+    padding-bottom: 20px;
+}
+
+#sidebar form#room-form input.submit{
+    text-align: center;
+    padding: 10px;
+    border: none;
+    outline: none;
+    height: 40px;
+    width: 100%;
+    background: #27242b;
+    color: #87708a;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-family: Roboto;
+    letter-spacing: 2px;
+}
+
+#sidebar form#room-form input.submit:hover, 
+#sidebar form#room-form input.submit:focus,
+#user-form p input.submit:hover,
+#user-form p input.submit:focus{
+    cursor: pointer;
+    background: #000;
+    text-shadow: 0 0 10px #b178e4;
+}
+
+#sidebar form input.room-name{
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: #fbf8fd;
+}
+
+#messages{
+    height: calc(100% - 61px);
+    position: relative;
+    padding: 0 0 100px;
+}
+
+#messages ul{
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 0 5px 15px 35px;
+}
+
+#messages div.room-info{
+    text-align: center;
+    color: #fbf8fd;
+    font-size: 22px;
+    margin: 30% auto;
+}
+
+#messages ul:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+h2.room-name{
+    height: 61px;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: sans-serif;
+	color: #fff;
+	border: none;
+	font-size: 26px;
+	letter-spacing: 1.5px;
+}
+
+#messages ul li {
+	display: inline-block;
+	position: relative;
+	margin: 15px 40px;
+	padding: 26px 30px;
+	padding-bottom: 25px;
+	clear: both;
+	float: left;
+
+	list-style: none;
+	background: #b178e4;
+	color: #fbf8fd;
+	/*box-shadow: 3px 3px 10px rgba(0,0,0,0.6), 
+	inset -1px 1px 6px rgba(255, 255, 255, 0.6);*/
+	border-radius: 50px 50px 50px 0;
+	font-size: 16px;
+    transform: scale(1);
+    transition: all 200ms linear;
+}
+
+#messages ul li.new {
+    transform: scale(0.1);
+}
+
+#messages ul li a img{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+    bottom: -28px;
+    left: -54px;
+}
+
+#messages ul li a span{
+	display: none;
+	transition: all 500ms linear;
+    background: #1565C0;
+    color: #fbf8fd;
+}
+
+#messages ul li a:hover span{
+    padding: 20px;
+    display: inline-block;
+    z-index: 100;
+    left: -35px;
+    margin: 10px;
+    position: absolute;
+    bottom: 0;
+    text-decoration: none;
+    border-radius: 50px 50px 50px 0;
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.5), 
+    inset 3px 3px 10px rgba(255,255,255, 0.3);
+}
+
+#messages ul li.my a:hover span{
+	left: unset;
+	right: -35px;
+	border-radius: 40px 40px 0 40px;
+	box-shadow: -3px 3px 15px rgba(0,0,0,0.5), 
+	inset -3px 3px 10px rgba(255,255,255, 0.3);
+}
+
+
+#messages ul li.my a img{
+	left: unset;
+	right: -54px;
+}
+
+#messages ul li span.date-time{
+	font-size: 14px;
+	position: absolute;
+	bottom: -21px;
+	left: 5px;
+	color: #5d5763;
+}
+
+#messages ul li.my span.date-time{
+	left: unset;
+	right: 5px;
+}
+
+#messages ul li span.del-msg{
+    position: absolute;
+    right: -30px;
+    top: calc(50% - 10px);
+    color: #38353c;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#messages ul li span.del-msg:hover{
+    color: #d9464e;
+}
+
+#messages ul li.my{
+	float: right;
+	border-radius: 40px 40px 0 40px;
+	background: #3d3942;
+	/*box-shadow: -3px 3px 10px rgba(0,0,0,0.6), 
+	inset 1px 1px 6px rgba(255, 255, 255, 0.6);*/
+}
+
+#messages ul span.date-info {
+    color: #5d5763;
+    font-size: 18px;
+    text-align: center;
+    margin: 10px auto;
+    padding-top: 10px;
+    display: block;
+    clear: both;
+    margin-bottom: 0;
+}
+
+/*#messages ul li:before{
+	content: "";
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    border-width: 15px 20px 0px 0px;
+    border-style: solid;
+    border-color: transparent #b178e4;
+    display: block;
+    width: 0;
+}
+
+
+#messages ul li.my:before{
+    border-width: 15px 0 0 20px;
+    left: unset;
+    right: -10px;
+    border-color: transparent #3d3942;
+}*/
+
+.msg-input{
+	width: 100%;
+	margin-top: 10px;
+    padding: 10px 85px 10px 10px;
+    border-radius: 0 0 20px 20px;
+    resize: none;
+	height: 90px;
+	outline: none;
+	border: none;
+	background: #3e3a42;
+	color: #87708a;
+	font-size: 18px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#messages ul::-webkit-scrollbar,
+.msg-input::-webkit-scrollbar, 
+#sidebar ul#room-list::-webkit-scrollbar {
+    width: 0.000001em;
+}
+ 
+#messages ul::-webkit-scrollbar-track,
+.msg-input::-webkit-scrollbar-track,
+#sidebar ul#room-list::-webkit-scrollbar-track
+{
+	background: rgb(135, 112, 138);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+#messages ul::-webkit-scrollbar-thumb,
+.msg-input::-webkit-scrollbar-thumb,
+#sidebar ul#room-list::-webkit-scrollbar-thumb {
+    background-color: #b178e4;
+    outline: 1px solid slategrey;
+}
+
+#send{
+	position: absolute;
+	color: #b178e4;
+	border-radius: 50%;
+	padding: 15px 15px;
+	font-size: 36px;
+    font-weight: 600;
+    right: 15px;
+    bottom: 14px;
+	cursor: pointer;
+}
+
+#send:hover{
+	text-shadow: 0 0 20px rgba(255,255,255, 1);
+}
+
+/*------------ User page ------------*/
+
+
+.wrap {
+    display: block;
+    width: 600px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.wrap h2{
+    text-transform: uppercase;
+    color: #fbf8fd;
+}
+
+.wrap div.links a {
+    display: block;
+    color: #1565C0;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.wrap div.links a:hover {
+    text-decoration: underline;
+}
+
+#user-form {
+    margin: 20px auto 0;
+    width: 600px;
+    color: #fbf8fd;
+    padding: 20px;
+}
+
+#user-form p{
+    margin: 0 0 30px 0;
+    overflow-wrap: break-word;
+    font-family: Roboto;
+}
+
+#user-form p label{
+    font-family: Roboto;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 10px;
+    color: #fbf8fd;
+}
+
+#user-form p input, 
+select {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: 0;
+    outline: none;
+    background: #3e3a42;
+    color: #eee;
+    font-size: 14px;
+    line-height: 30px;
+    height: 54px;
+    border-radius: 3px;
+    font-family: Roboto;
+    font-size: 18px;
+}
+
+#user-form p input.submit{
+    background: #27242b;
+}
+
+#avatar{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+span.field-validation-error {
+    margin: 10px 0;
+    display: block;
+    color: red;
+}
+
+.validation-summary-errors ul {
+    color: red;
+    list-style: none;
+    margin: 0 0 20px;
+    font-size: 18px;
+}
+
+/* START ------ Manage Pages -------*/
+
+table.table {
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    margin: 30px auto;
+    background: #222222;
+}
+
+table.table thead tr {
+    height: 60px;
+    background: #393939;
+}
+
+table.table thead tr th{
+    font-size: 20px;
+    color: #b178e4;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+table.table tbody tr td{
+    padding: 15px 0;
+    font-size: 18px;
+    color: #808080;
+    line-height: 1.4;
+}
+table.table tbody tr td a {
+    color: #1565C0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+table.table tbody tr td a:hover {
+    text-decoration: underline;
+}
+
+#room-rename-form{
+    margin: 20px auto;
+    display: none;
+}
+
+#room-rename-form label{
+    font-family: Roboto;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 10px;
+    color: #fbf8fd;
+}
+
+#room-rename-form input[type=text]{
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    background: #393939;
+    color: #fbf8fd;
+}
+
+#room-rename-form input.submit{
+    text-align: center;
+    padding: 10px;
+    border: none;
+    outline: none;
+    height: 40px;
+    width: 100%;
+    background: #27242b;
+    color: #87708a;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-family: Roboto;
+    letter-spacing: 2px;
+    margin: 10px auto;
+}
+
+#room-rename-form input.submit:hover{
+    cursor: pointer;
+    background: #000;
+    text-shadow: 0 0 10px #b178e4;
+}
+
+/* END------ Manage Pages -------*/
+
+/* Responsiveness */
+
+@media only screen and (max-width: 600px) {
+
+    .container {
+        height: calc(100vh - 25px);
+        margin: 10px auto;
+    }
+
+    .wrap,
+    #user-form {
+        width: 100%;
+    }
+
+    #sidebar .toggle-btn {
+        height: 31px;
+        width: 35px;
+        left: 220px;
+        top: 25px;
+    }
+
+    .toggle-btn span {
+        width: 35px !important;
+        height: 7px !important;
+    }
+
+    #sidebar .toggle-btn.active span:nth-child(3) {
+        transform: rotate(-45deg);
+        top: 24px;
+        left: 8px;
+    }
+
+    h2.room-name {
+        height: 50px;
+    }
+
+    #messages {
+        height: calc(100% - 35px);
+    }
+
+    .msg-input {
+        height: 75px;
+    }
+
+    #messages ul {
+        padding: 0 20px 15px;
+    }
+
+    #messages ul li a img {
+        left: -44px;
+    }
+
+    #messages ul li.my a img {
+        right: -44px;
+    }
+
+    #messages ul span.date-info{
+        font-size: 14px;
+    }
+
+    #messages ul li span.date-time {
+        font-size: 13px;
+        bottom: -18px;
+    }
+
+    #messages ul li span.del-msg {
+        top: calc(50% - 13px);
+        font-size: 16px;
+        right: -30px;
+    }
+
+    #messages ul li a:hover span {
+        left: -25px;
+        bottom: -10px;
+    }
+
+    #messages ul li.my a:hover span{
+        right: -25px;
+    }
+
+    #messages ul li a img{
+        width: 40px;
+        height: 40px;
+    }
+
+    #messages ul li {
+        margin: 8px 35px 13px;
+        padding: 15px 25px;
+        padding-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .msg-input {
+        padding: 7px 60px 7px 7px;
+        font-size: 14px;
+    }
+
+    #send {
+        font-size: 28px;
+        right: 10px;
+        bottom: 24px;
+    }
+}

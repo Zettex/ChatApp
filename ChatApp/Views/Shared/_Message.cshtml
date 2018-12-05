@@ -1,0 +1,23 @@
+﻿@model ChatApp.Models.MessageModelView
+
+@{ 
+    string my = null;
+    if (Model.User.Id == Model.Message.User.Id)
+    {
+        my = "my";
+    }
+
+    <li class="msg new @my">
+        @if (my == null)
+        {
+            <a href="@Url.Action("User", "Account", new { Model.Message.User.Id })">
+
+                <img src="@(Model.Message.User.ImageUrl ?? "/Content/ChatContent/images/img.png")">
+                <span class="user-name">@Model.Message.User.Name</span>
+            </a>
+        }
+        @Html.Raw(System.Text.RegularExpressions.Regex.Replace(Model.Message.Body, @"\r\n?|\n", "<br />"))
+        <span class="date-time">@Model.Message.Date.ToShortTimeString()</span>
+        <span id="msg_@Model.Message.Id" class="del-msg">@(my == null ? "" : "✖")</span>
+    </li>
+}
